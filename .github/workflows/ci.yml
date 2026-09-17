@@ -1,7 +1,7 @@
 name: CI
 on:
   push:
-    branches: [main, 'build/**']
+    branches: [main, 'build/**', 'fix/**', 'feat/**']
   pull_request:
     branches: [main]
 permissions:
@@ -14,10 +14,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: 24
       - run: npm install
       - run: npm run typecheck
       - run: npm run build
         env:
           WHATSAPP_PROVIDER: mock
+          NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-placeholder
+          SUPABASE_SERVICE_ROLE_KEY: ci-placeholder
+          QUEUE_WORKER_SECRET: ci-placeholder
