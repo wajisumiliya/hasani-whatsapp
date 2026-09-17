@@ -1,0 +1,2 @@
+import 'server-only';import {getAdminClient} from '@/lib/supabase-admin';
+export async function requireUser(req:Request){const auth=req.headers.get('authorization');if(!auth?.startsWith('Bearer '))throw new Error('UNAUTHORIZED');const token=auth.slice(7);const db=getAdminClient();const {data,error}=await db.auth.getUser(token);if(error||!data.user)throw new Error('UNAUTHORIZED');return data.user;}
